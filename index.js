@@ -24,12 +24,9 @@ app.get('/users/:id', (request, response, next) => {
 
 app.get('/users', (request, response, next) => {
     db.collection('users').get()
-        .then(users => {
-            const result = [];
-            users.forEach(user => {
-                result.push(user.data());
-            });
-            if (!result.length) {
+        .then(qs => {
+            const result = qs.docs.map(user => user.data());
+            if (result.length == 0) {
                 response.sendStatus(204);
             }
             response.json(result);
