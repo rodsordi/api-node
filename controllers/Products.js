@@ -2,25 +2,25 @@ const cacheManager = require('cache-manager');
 const { cache } = require('../config/defaut')
 const memoryCache = cacheManager.caching(cache);
 
-const UsersModel = require('../models/Users')
-const userModel = new UsersModel();
+const ProductsModel = require('../models/Products')
+const productModel = new ProductsModel();
 
-class Users {
+class Products {
     static get(req, res) {
         const id = req.params.id;
-        const key = `user_${id}`;
+        const key = `product_${id}`;
         memoryCache.get(key, (err, result) => {
             if (result)
                 return res.json(result);
 
-            userModel.get(id)
-                .then(user => {
-                    if (!user.exists)
+            productModel.get(id)
+                .then(product => {
+                    if (!product.exists)
                         return res.sendStatus(204)
 
-                    const userData = user.data();
-                    memoryCache.set(key, userData);
-                    res.json(userData);
+                    const productData = product.data();
+                    memoryCache.set(key, productData);
+                    res.json(productData);
                 })
                 .catch(err => {
                     res.sendStatus(500);
@@ -30,12 +30,13 @@ class Users {
     };
 
     static getAll(req, res) {
+        console.log('entrou')
         const id = req.params.id;
-        userModel.getAll()
-            .then(users => {
-                res.json(users.docs.map(user => ({
-                    id: user.id,
-                    ...user.data(),
+        productModel.getAll()
+            .then(Products => {
+                res.json(Products.docs.map(product => ({
+                    id: product.id,
+                    ...product.data(),
                 })));
             })
             .catch(err => {
@@ -45,14 +46,13 @@ class Users {
     }
 
     static update(req, res) {
-        console.log('entrou')
-        const id = req.params.id;        
+        const id = req.params.id;
         const data = {
             'email': req.body.email,
             'password': req.body.password,
             'name': req.body.name,
         }
-        userModel.put(id, data)
+        productModel.put(id, data)
             .then(data => {
                 res.sendStatus(200);
             })
@@ -61,7 +61,6 @@ class Users {
                 console.log(err);
             })
     }
-    
 }
 
-module.exports = Users;
+module.exports = Products;
