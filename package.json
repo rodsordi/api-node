@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=prod nodemon index.js",
-    "start-dev": "NODE_ENV=dev nodemon index.js"
+    "start": "set NODE_ENV='prod' && nodemon index.js",
+    "start-dev": "set NODE_ENV='dev' && nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
   "homepage": "https://github.com/rodsordi/api-node#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "cache-manager": "^2.10.1",
     "express": "^4.17.1",
     "firebase": "^7.2.0",
     "jsonwebtoken": "^8.5.1",

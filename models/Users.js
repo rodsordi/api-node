@@ -5,14 +5,26 @@ class Users extends BaseModel {
         super();
     }
 
-    get(user) {
-        const collection = this.db.collection('users');
-        if (user.email)
-            collection.where("email", "==", user.email);
-        if (user.password)
-            collection.where("password", "==", user.password);
-        return collection.get();
+    get(id) {
+        return this.db
+            .collection('users')
+            .doc(id)
+            .get();
     }
+
+    getAll() {
+        return this.db
+            .collection('users')
+            .get()
+    }
+
+    put(id, data) {
+        return this.db
+            .collection('users')
+            .doc(id)
+            .set(data);
+    }
+    
 }
 
 module.exports = Users;
