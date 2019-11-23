@@ -30,7 +30,6 @@ class Products {
     };
 
     static getAll(req, res) {
-        console.log('entrou')
         const id = req.params.id;
         productModel.getAll()
             .then(Products => {
@@ -48,9 +47,8 @@ class Products {
     static update(req, res) {
         const id = req.params.id;
         const data = {
-            'email': req.body.email,
-            'password': req.body.password,
             'name': req.body.name,
+            'value': req.body.value,
         }
         productModel.put(id, data)
             .then(data => {
